@@ -349,7 +349,13 @@
             document.getElementById('video-screen').style.display = 'block';
             
             // Play the local video
-            videoElement.play();
+            videoElement.load();
+            videoElement.play().catch(error => {
+                console.error("Video play failed:", error);
+                // Fallback: If the browser blocks it, mute it and try again
+                videoElement.muted = true;
+                videoElement.play();
+            });
             
             document.getElementById('darkness').style.opacity = '0';
 
@@ -385,3 +391,4 @@
     </script>
 </body>
 </html>
+
